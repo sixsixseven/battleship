@@ -29,3 +29,4 @@ I value your input, and would love to hear from you. Please feel free to add com
 *	Hits
 *	Misses
 *	Player turnover screen. Clears theconsole buffer between turns.
+*	Turn counter
