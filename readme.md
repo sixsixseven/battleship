@@ -21,8 +21,8 @@ I value your input, and would love to hear from you. Please feel free to add com
 ##	Current class ideas
 *	Ships
 *	Boards
-**	Displays own board
-**	Displays opponent board w/ hits and misses.
+	-	Displays own board
+	-	Displays opponent board w/ hits and misses.
 
 ##	Current function ideas
 *	Shooting
