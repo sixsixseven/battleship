@@ -2,6 +2,8 @@
 
 import os
 import random
+import time
+import sys
 
 	###	CLASSES (Alphabetical)
 
@@ -16,13 +18,8 @@ class Battleship(object):
 		super(Battleship, self).__init__()
 		self.shiptype = ""
 		self.is_sunk = False
-		self.size = 0
+		self.size = None
 		self.location = "Location"	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
-
-	def shot(self):
-		pass
-	#	Accept user input for shot placment in the form of "A6, B4, R9"
-	#	etc. Needs error-checking.
 
 
 class Gameboard(object):
@@ -35,6 +32,14 @@ class Gameboard(object):
 		self.s = "\u25EF"	#	◯
 		#	Displays the gameboard, calling to the Player() class to look for hit or miss information.
 
+	def own_board():
+		"""Displays own board with ship locations."""
+		pass
+
+	def target_board():
+		"""Displays targeting board; only shows hits and misses."""
+		pass
+
 
 class Player(object):
 	"""Player Class definition"""
@@ -43,10 +48,13 @@ class Player(object):
 		self.player_name = ""
 		self.hits = []
 		self.misses = []
-		self.num_hits = 0
-		self.num_miss = 0
-		#self.hvm = self.hits / self.misses
-		self.sunk = 0
+		self.num_hits = None
+		self.num_miss = None
+		if self.num_miss != None:
+			self.hvm = self.num_hits / self.num_miss
+		else:
+			return None
+		self.sunk = None
 		
 
 
@@ -56,6 +64,11 @@ def clear():
 	"""Clears the display buffer and resets the title. Better GUI."""
 	os.system('clear')
 	title()
+
+def shot():
+	pass
+#	Accept user input for shot placment in the form of "A6, B4, R9"
+#	etc. Needs error-checking.
 
 def title():
 	"""Displays the title. Should be used on all status screens."""
@@ -76,7 +89,7 @@ def turnover():
 def yesno(i):
 	"""Handles yes/no logic. Accepts exactly 1 string argument in the
 	form of a yes/no question."""
-	x = input(f"{i}\nY/N > ").lower()
+	x = input(f"{i}	Y/N > ").lower()
 	
 	yeslist = ["y", "yes", "ye", "yea", "yeah"]
 	nolist = ["n", "no", "na", "nah", "nope"]
@@ -93,8 +106,8 @@ def yesno(i):
 gameactive = True
 
 if gameactive == True:
+	#	Create the game objects, and gather the player pertinents.
 	clear()
-	
 	yn = yesno("Shall we play a game?")
 	if yn == True:
 		board = Gameboard()
@@ -106,15 +119,32 @@ if gameactive == True:
 		
 		clear()
 		p2.player_name = input("What is Player Two's name? > ").lower()
-
+		yn = None
 	else:
 		print("Why did you open me, then?\n\n")
-		exit(0)
+		gameactive = False
+
+	#	Decide who goes first.
+	clear()
+	print("Awesome! I'll pick someone to start at random.\n")
+	yn = yesno("Are you ready?")
+	
+	if yn == True:
+		player_list = [p1.player_name, p2.player_name]
+		current_player = random.choice(player_list)
+		clear()
+		print("Ok. I'm thinking about who I like better:")
+
+		for x in range(10):	#	Prints suspensful loading dots.
+			sys.stdout.write(". ")
+			#print(x, end=" ")
+			sys.stdout.flush()
+			time.sleep(.3)
+		print(f"{current_player.title()} gets the first shot!")
+		yn = None
+	else:
+		yn = None
 
 
-
-
-
-
-
-
+else:
+	exit(0)
