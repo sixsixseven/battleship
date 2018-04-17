@@ -1,6 +1,7 @@
 	#	battleship.py
 
 import os
+import random
 
 	###	CLASSES (Alphabetical)
 
@@ -16,9 +17,12 @@ class Battleship(object):
 		self.shiptype = shiptype
 		self.is_sunk = is_sunk
 		self.size = size
+		self.location = location	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
 
-x = Battleship()
-x.shiptype = "carrier"
+	def shot(self):
+		pass
+	#	Accept user input for shot placment in the form of "A6, B4, R9"
+	#	etc. Needs error-checking.
 
 
 class Gameboard(object):
@@ -27,22 +31,24 @@ class Gameboard(object):
 		super(Gameboard, self).__init__()
 		self.arg = arg
 		self.size = 10
-		#	Needs grid/aray of chrs
-		#	Use "\u2591" for plain water
-		#	Use "\u25C8" for hits
-		#	Use "\u25EF" for misses
-		#	10x10 GRS. Letters for rows, numbers for columns.
-			#	A-J and 1-10. 
+		self.w = "\u2591"	#	░
+		self.x = "\u25C8"	#	◈
+		self.s = "\u25EF"	#	◯
 		#	Should be generated procedurally and not hard-coded.
 			#	Probably in the __init__ section?
-		#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
+
 		#	At BEST, opponests should have up tp a 1% chance of a hit.
+
 
 class Player(object):
 	"""Player Class definition"""
 	def __init__(self):
 		super(Player, self).__init__()
-		#	Needs hits, misses, hit:miss ratio, ships sunk.
+		self.player_name = player_name
+		self.hits = hits
+		self.misses = misses
+		self.hvm = hits / misses
+		self.sunk = sunk
 		
 
 
@@ -51,20 +57,6 @@ class Player(object):
 def clear():
 	"""Clears the display buffer."""
 	os.system('clear')
-
-def hit():
-	"""Handles the 'hit' logic."""
-	pass
-
-def miss():
-	"""Handles the 'miss' logic."""
-	pass
-
-def shot():
-	"""Handles the logic of shooting a shot."""
-	pass
-	#	Accept user input for shot placment in the form of "A6, B4, R9"
-	#	etc. Needs error-checking.
 
 def title():
 	"""Displays the title. Should be used on all status screens."""
@@ -79,6 +71,7 @@ def turn_count():
 
 def turnover():
 	"""Handles the player turnover."""
+	#	Is a break screen so that opponents can't see each other's screen.
 	pass
 
 def yesno(i):
@@ -97,34 +90,13 @@ def yesno(i):
 		return yesno(i)
 
 
-	###	MAIN
-title()
+	###	GAME ENGINE
+gameactive = True
 
-x = yesno("Shall we play a game?")
+if gameactive == True:
+	clear()
+	title()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	x = yesno("Shall we play a game?")
 
 
