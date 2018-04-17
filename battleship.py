@@ -14,10 +14,10 @@ class Battleship(object):
 	#	submarine (x2)	Size 1
 	def __init__(self):
 		super(Battleship, self).__init__()
-		self.shiptype = shiptype
-		self.is_sunk = is_sunk
-		self.size = size
-		self.location = location	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
+		self.shiptype = ""
+		self.is_sunk = False
+		self.size = 0
+		self.location = "Location"	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
 
 	def shot(self):
 		pass
@@ -27,36 +27,35 @@ class Battleship(object):
 
 class Gameboard(object):
 	"""Gameboard Class definition"""
-	def __init__(self, arg):
+	def __init__(self):
 		super(Gameboard, self).__init__()
-		self.arg = arg
 		self.size = 10
 		self.w = "\u2591"	#	░
 		self.x = "\u25C8"	#	◈
 		self.s = "\u25EF"	#	◯
-		#	Should be generated procedurally and not hard-coded.
-			#	Probably in the __init__ section?
-
-		#	At BEST, opponests should have up tp a 1% chance of a hit.
+		#	Displays the gameboard, calling to the Player() class to look for hit or miss information.
 
 
 class Player(object):
 	"""Player Class definition"""
 	def __init__(self):
-		super(Player, self).__init__()
-		self.player_name = player_name
-		self.hits = hits
-		self.misses = misses
-		self.hvm = hits / misses
-		self.sunk = sunk
+		#super(Player, self).__init__()
+		self.player_name = ""
+		self.hits = []
+		self.misses = []
+		self.num_hits = 0
+		self.num_miss = 0
+		#self.hvm = self.hits / self.misses
+		self.sunk = 0
 		
 
 
 	###	FUNCTIONS (Alphabetical)
 
 def clear():
-	"""Clears the display buffer."""
+	"""Clears the display buffer and resets the title. Better GUI."""
 	os.system('clear')
+	title()
 
 def title():
 	"""Displays the title. Should be used on all status screens."""
@@ -90,13 +89,32 @@ def yesno(i):
 		return yesno(i)
 
 
-	###	GAME ENGINE
+	###	GAME ENGINE (Main)
 gameactive = True
 
 if gameactive == True:
 	clear()
-	title()
+	
+	yn = yesno("Shall we play a game?")
+	if yn == True:
+		board = Gameboard()
+		p1, p1 = Player(), Battleship()
+		p2, p2 = Player(), Battleship()
+		
+		clear()
+		p1.player_name = input("What is Player One's name? > ").lower()
+		
+		clear()
+		p2.player_name = input("What is Player Two's name? > ").lower()
 
-	x = yesno("Shall we play a game?")
+	else:
+		print("Why did you open me, then?\n\n")
+		exit(0)
+
+
+
+
+
+
 
 
