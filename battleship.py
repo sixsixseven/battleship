@@ -4,6 +4,7 @@ import os
 import random
 import time
 import sys
+import inspect	#	Decomment this line for debugging w/ game_state()
 
 	###	CLASSES (Alphabetical)
 
@@ -16,10 +17,11 @@ class Battleship(object):
 	#	submarine (x2)	Size 1
 	def __init__(self):
 		super(Battleship, self).__init__()
-		self.shiptype = ""
+		self.shiptype = None
 		self.is_sunk = False
 		self.size = None
-		self.location = "Location"	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
+		self.location = None	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
+
 
 
 class Gameboard(object):
@@ -45,17 +47,16 @@ class Player(object):
 	"""Player Class definition"""
 	def __init__(self):
 		#super(Player, self).__init__()
-		self.player_name = ""
+		self.player_name = None
 		self.hits = []
 		self.misses = []
 		self.num_hits = None
 		self.num_miss = None
-		if self.num_miss != None:
+		if self.num_hits and self.miss != None:
 			self.hvm = self.num_hits / self.num_miss
 		else:
 			return None
 		self.sunk = None
-		
 
 
 	###	FUNCTIONS (Alphabetical)
@@ -64,6 +65,14 @@ def clear():
 	"""Clears the display buffer and resets the title. Better GUI."""
 	os.system('clear')
 	title()
+
+def game_state():
+	print("Player 1")
+	print(vars(p1))
+	print()
+	print("Player 2")
+	print(vars(p2))
+	throwaway = input("Press Return when ready.")
 
 def shot():
 	pass
@@ -104,16 +113,19 @@ def yesno(i):
 
 	###	GAME ENGINE (Main)
 gameactive = True
-
 if gameactive == True:
+	board = Gameboard()
+	#p1 = Battleship()
+	p1 = Player()
+	#p2 = Battleship()
+	p2 = Player()
+
+	game_state()
 	#	Create the game objects, and gather the player pertinents.
 	clear()
 	yn = yesno("Shall we play a game?")
+	
 	if yn == True:
-		board = Gameboard()
-		p1, p1 = Player(), Battleship()
-		p2, p2 = Player(), Battleship()
-		
 		clear()
 		p1.player_name = input("What is Player One's name? > ").lower()
 		
@@ -124,26 +136,23 @@ if gameactive == True:
 		print("Why did you open me, then?\n\n")
 		gameactive = False
 
+
 	#	Decide who goes first.
 	clear()
-	print("Awesome! I'll pick someone to start at random.\n")
-	yn = yesno("Are you ready?")
+	print("Awesome! I'll pick someone at random to start.\n")
+	throwaway = input("Ready Player One and Two? Press Return.")
 	
-	if yn == True:
-		player_list = [p1.player_name, p2.player_name]
-		current_player = random.choice(player_list)
-		clear()
-		print("Ok. I'm thinking about who I like better:")
+	player_list = [p1.player_name, p2.player_name]
+	current_player = random.choice(player_list)
+	clear()
+	print("Ok. I'm thinking about who I like better:\n")
 
-		for x in range(10):	#	Prints suspensful loading dots.
-			sys.stdout.write(". ")
-			#print(x, end=" ")
-			sys.stdout.flush()
-			time.sleep(.3)
-		print(f"{current_player.title()} gets the first shot!")
-		yn = None
-	else:
-		yn = None
+	for x in range(random.randint(1,10)):	#	Prints suspensful loading dots.
+		sys.stdout.write(". ")
+		sys.stdout.flush()
+		time.sleep(.3)
+	print(f"{current_player.title()} gets the first shot!")
+
 
 
 else:
