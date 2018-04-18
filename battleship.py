@@ -9,17 +9,12 @@ import sys
 
 class Battleship(object):
 	"""Battleship Class definition"""
-	#	carrier			Size 5
-	#	battleship		Size 4
-	#	cruiser			Size 3
-	#	destroyer (x2)	Size 2
-	#	submarine (x2)	Size 1
 	def __init__(self, shiptype, size):
 		super(Battleship, self).__init__()
 		self.shiptype = shiptype
-		self.is_sunk = False
 		self.size = size
-		self.location = None	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
+		self.is_sunk = False
+		self.location = [None]	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
 
 	def getname(self):
 		return self.shiptype
@@ -47,8 +42,9 @@ class Gameboard(object):
 class Player(object):
 	"""Player Class definition"""
 	def __init__(self):
-		#super(Player, self).__init__()
-		self.fleet = []
+		"""Inits all the Player class objects."""
+		super(Player, self).__init__()
+		self.fleet = [None]
 		self.player_name = None
 		self.hits = []
 		self.misses = []
@@ -56,11 +52,13 @@ class Player(object):
 		self.num_miss = len(self.misses)	#	Could this just count what's in self.misses?
 		self.sunk = None
 		self.shipyard()
-		if self.num_hits and self.miss != 0:
+		self.formation()
+		if self.num_hits and self.misses != 0:
 			self.hvm = self.num_hits / self.num_miss
 
 
 	def shipyard(self):
+		"""Builds all the ship objects and passes them to the self.fleet list."""
 		self.fleet.append(Battleship('carrier', 5))
 		self.fleet.append(Battleship('battleship', 4))
 		self.fleet.append(Battleship('cruiser', 3))
@@ -68,6 +66,26 @@ class Player(object):
 		self.fleet.append(Battleship('destroyer', 2))
 		self.fleet.append(Battleship('submarine', 1))
 		self.fleet.append(Battleship('submarine', 1))
+
+	def formation(self):
+		"""Determines ship location for each player ship object and assigns it to each player ship object."""
+		#	For each ship object in 'self.fleet';
+		for i in self.fleet:
+			#	Select a random seed location and orientation;
+			orientation = random.randint(0,1)	#	0 = horiz, 1 = vert
+			x = random.randint(1,10)
+			y = random.randint(1,10)
+			location_seed = [x, y]
+
+			#	IF 'orientation' is 0, then increment on x by the value of Battleship(self.size), if 'orientation' is 1, then increment on y by the value of Battleship(self.size)
+			proposed_location = [None]
+
+			#	IF x or y for any item in 'proposed_location' are < 1 or > 10, start again, else;
+
+			#	IF x or y for any item in 'proposed_location' = any item in self.fleet, start again, else;
+			
+			#	IF there are no collisions, append those values to self.location[] in Battleship().
+			self.fleet.append(Battleship())
 			
 
 
@@ -90,7 +108,7 @@ def game_state():
 def shot():
 	pass
 #	Accept user input for shot placment in the form of "A6, B4, R9"
-#	etc. Needs error-checking.
+#	etc. Needs error-checking. A1-J10
 
 def title():
 	"""Displays the title. Should be used on all status screens."""
@@ -128,12 +146,17 @@ def yesno(i):
 gameactive = True
 if gameactive == True:
 	#	Make the board
-	board = Gameboard()
+	p1_board = Gameboard()
+	p2_board = Gameboard()
 
 	#	Make the players
 	p1 = Player()
 	p2 = Player()
+
+	p1.formation()
+	p2.formation()
 	game_state()
+
 	#	Gather the player pertinents.
 	clear()
 	yn = yesno("Shall we play a game?")
