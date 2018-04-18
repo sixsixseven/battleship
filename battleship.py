@@ -4,7 +4,6 @@ import os
 import random
 import time
 import sys
-import inspect	#	Decomment this line for debugging w/ game_state()
 
 	###	CLASSES (Alphabetical)
 
@@ -15,13 +14,15 @@ class Battleship(object):
 	#	cruiser			Size 3
 	#	destroyer (x2)	Size 2
 	#	submarine (x2)	Size 1
-	def __init__(self):
+	def __init__(self, shiptype, size):
 		super(Battleship, self).__init__()
-		self.shiptype = None
+		self.shiptype = shiptype
 		self.is_sunk = False
-		self.size = None
+		self.size = size
 		self.location = None	#	Ships will initially be placed at random. Prevents having to code a "place ship" interface.
 
+	def getname(self):
+		return self.shiptype
 
 
 class Gameboard(object):
@@ -29,9 +30,9 @@ class Gameboard(object):
 	def __init__(self):
 		super(Gameboard, self).__init__()
 		self.size = 10
-		self.w = "\u2591"	#	░
-		self.x = "\u25C8"	#	◈
-		self.s = "\u25EF"	#	◯
+		self.w = "\u2591"	#	░	Water
+		self.x = "\u25C8"	#	◈	Hit
+		self.s = "\u25EF"	#	◯	Miss
 		#	Displays the gameboard, calling to the Player() class to look for hit or miss information.
 
 	def own_board():
@@ -47,16 +48,27 @@ class Player(object):
 	"""Player Class definition"""
 	def __init__(self):
 		#super(Player, self).__init__()
+		self.fleet = []
 		self.player_name = None
 		self.hits = []
 		self.misses = []
-		self.num_hits = None
-		self.num_miss = None
-		if self.num_hits and self.miss != None:
-			self.hvm = self.num_hits / self.num_miss
-		else:
-			return None
+		self.num_hits = len(self.hits)	#	Could this just count what's in self.hits?
+		self.num_miss = len(self.misses)	#	Could this just count what's in self.misses?
 		self.sunk = None
+		self.shipyard()
+		if self.num_hits and self.miss != 0:
+			self.hvm = self.num_hits / self.num_miss
+
+
+	def shipyard(self):
+		self.fleet.append(Battleship('carrier', 5))
+		self.fleet.append(Battleship('battleship', 4))
+		self.fleet.append(Battleship('cruiser', 3))
+		self.fleet.append(Battleship('destroyer', 2))
+		self.fleet.append(Battleship('destroyer', 2))
+		self.fleet.append(Battleship('submarine', 1))
+		self.fleet.append(Battleship('submarine', 1))
+			
 
 
 	###	FUNCTIONS (Alphabetical)
@@ -67,12 +79,13 @@ def clear():
 	title()
 
 def game_state():
+	"""For debugging. Outputs variable information for specified objects."""
 	print("Player 1")
 	print(vars(p1))
 	print()
 	print("Player 2")
 	print(vars(p2))
-	throwaway = input("Press Return when ready.")
+	throwaway = input("Debugging: Press return to continue.")
 
 def shot():
 	pass
@@ -114,14 +127,14 @@ def yesno(i):
 	###	GAME ENGINE (Main)
 gameactive = True
 if gameactive == True:
+	#	Make the board
 	board = Gameboard()
-	#p1 = Battleship()
-	p1 = Player()
-	#p2 = Battleship()
-	p2 = Player()
 
+	#	Make the players
+	p1 = Player()
+	p2 = Player()
 	game_state()
-	#	Create the game objects, and gather the player pertinents.
+	#	Gather the player pertinents.
 	clear()
 	yn = yesno("Shall we play a game?")
 	
