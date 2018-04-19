@@ -7,7 +7,7 @@ A two-player Battleship game written entirely in Python.
 Let's see if I can maintain the discipline to finish this game.
 
 ##	Your feedback
-I value your input, and would love to hear from you. Please feel free to add comments, or make clones to play with the code. This is an exercise in expaning my knowledge, so I'm not currently accepting contributions to the code.
+I value your input, and would love to hear from you. Please feel free to add comments, or make clones to play with the code. This is an exercise in expanding my knowledge, so I'm not currently accepting contributions to the code.
 
 ##	To-do:
 1.	~~Define classes~~
@@ -28,5 +28,5 @@ I value your input, and would love to hear from you. Please feel free to add com
 *	~~Shooting~~
 *	~~Hits~~
 *	~~Misses~~
-*	Player turnover screen. Clears theconsole buffer between turns.
+*	Player turnover screen. Clears the console buffer between turns.
 *	Turn counter
