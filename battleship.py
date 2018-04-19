@@ -75,13 +75,13 @@ class Player(object):
 			orientation = random.randint(0,1)	#	0 = horiz, 1 = vert
 			x = random.randint(1,10)
 			y = random.randint(1,10)
-			location_seed = [[x, y]]
-			print(f"Locaiton seed: {location_seed}")
+			location_seed = proposed_location = [[x, y]]
+			print(f"Location seed: {location_seed}")
 			#	IF 'orientation' = 0, then increment on x by the value of Battleship(self.size), if 'orientation' is 1, then increment on y by the value of Battleship(self.size)
 			if orientation == 0:
-				proposed_location = location_seed.append(location_seed[0][0] + 5)#-->Ship size
+				proposed_location.append([[x + 1, y]])#-->Ship size
 			elif orientation == 1:
-				proposed_location = location_seed[0][1] + 5#-->Ship size
+				proposed_location.append([[x, y + 1]])#-->Ship size
 			print(f"Proposed location: {proposed_location}")
 			#	IF any x or y coord in 'proposed_location' are < 1 or > 10, start again, else;
 
